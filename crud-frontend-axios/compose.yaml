@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build: .
+    environment:
+      PORT: 80
+      BACKEND_SCHEME: http
+      BACKEND_HOST: host.docker.internal
+      BACKEND_PORT: 8000
+    ports:
+      - "8080:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

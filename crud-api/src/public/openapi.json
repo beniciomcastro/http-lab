@@ -1,0 +1,275 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "HTTP Lab API",
+    "version": "1.1.0",
+    "description": "API REST educacional em PHP para praticar os métodos GET, POST, PUT, PATCH e DELETE com produtos, usuários, tarefas, chamados e clientes."
+  },
+  "servers": [
+    { "url": "/", "description": "Ambiente local" }
+  ],
+  "tags": [
+    { "name": "Resources", "description": "Operações disponíveis para todos os recursos do laboratório" }
+  ],
+  "paths": {
+    "/api/{resource}": {
+      "parameters": [
+        { "$ref": "#/components/parameters/Resource" }
+      ],
+      "get": {
+        "tags": ["Resources"],
+        "summary": "Listar registros",
+        "description": "Retorna todos os registros existentes no recurso selecionado.",
+        "operationId": "listRecords",
+        "responses": {
+          "200": {
+            "description": "Lista retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RecordList" },
+                "examples": {
+                  "products": { "value": { "items": [{ "id": 1, "name": "Notebook", "price": 3499.9, "stock": 12 }] } },
+                  "empty": { "value": { "items": [] } }
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/ResourceNotFound" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      },
+      "post": {
+        "tags": ["Resources"],
+        "summary": "Criar registro",
+        "description": "Cria um registro no recurso selecionado. Os campos obrigatórios dependem do recurso.",
+        "operationId": "createRecord",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RecordInput" },
+              "examples": {
+                "product": { "summary": "Produto", "value": { "name": "Notebook", "price": 3499.9, "stock": 12 } },
+                "user": { "summary": "Usuário", "value": { "name": "Ana Souza", "email": "ana@example.com", "role": "Administradora" } },
+                "task": { "summary": "Tarefa", "value": { "title": "Revisar documentação", "status": "Pendente", "priority": "Alta" } },
+                "ticket": { "summary": "Chamado", "value": { "subject": "Erro no login", "category": "Sistema", "status": "Aberto" } },
+                "client": { "summary": "Cliente", "value": { "name": "Carlos Lima", "company": "Empresa Exemplo", "email": "carlos@example.com" } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Registro criado com sucesso",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Record" } } }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/ResourceNotFound" },
+          "422": { "$ref": "#/components/responses/ValidationError" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      }
+    },
+    "/api/{resource}/{id}": {
+      "parameters": [
+        { "$ref": "#/components/parameters/Resource" },
+        { "$ref": "#/components/parameters/RecordId" }
+      ],
+      "put": {
+        "tags": ["Resources"],
+        "summary": "Substituir registro",
+        "description": "Substitui todos os campos editáveis de um registro existente.",
+        "operationId": "replaceRecord",
+        "requestBody": { "$ref": "#/components/requestBodies/RecordBody" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/RecordUpdated" },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/RecordNotFound" },
+          "422": { "$ref": "#/components/responses/ValidationError" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      },
+      "patch": {
+        "tags": ["Resources"],
+        "summary": "Atualizar parcialmente",
+        "description": "Atualiza somente os campos enviados no corpo da requisição.",
+        "operationId": "patchRecord",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RecordPatch" },
+              "example": { "status": "Concluído" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "$ref": "#/components/responses/RecordUpdated" },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/RecordNotFound" },
+          "422": { "$ref": "#/components/responses/ValidationError" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      },
+      "delete": {
+        "tags": ["Resources"],
+        "summary": "Excluir registro",
+        "description": "Remove definitivamente um registro do recurso selecionado.",
+        "operationId": "deleteRecord",
+        "responses": {
+          "200": {
+            "description": "Registro excluído com sucesso",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Record" } } }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/RecordNotFound" },
+          "500": { "$ref": "#/components/responses/InternalError" }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Resource": {
+        "name": "resource",
+        "in": "path",
+        "required": true,
+        "description": "Tipo de CRUD que será acessado",
+        "schema": { "type": "string", "enum": ["products", "users", "tasks", "tickets", "clients"] },
+        "example": "products"
+      },
+      "RecordId": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Identificador numérico do registro",
+        "schema": { "type": "integer", "minimum": 1 },
+        "example": 1
+      }
+    },
+    "requestBodies": {
+      "RecordBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/RecordInput" },
+            "example": { "name": "Notebook", "price": 3499.9, "stock": 12 }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ProductInput": {
+        "type": "object",
+        "required": ["name", "price", "stock"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "example": "Notebook" },
+          "price": { "type": "number", "format": "float", "minimum": 0, "example": 3499.9 },
+          "stock": { "type": "integer", "minimum": 0, "example": 12 }
+        }
+      },
+      "UserInput": {
+        "type": "object",
+        "required": ["name", "email", "role"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "example": "Ana Souza" },
+          "email": { "type": "string", "format": "email", "example": "ana@example.com" },
+          "role": { "type": "string", "minLength": 1, "example": "Administradora" }
+        }
+      },
+      "TaskInput": {
+        "type": "object",
+        "required": ["title", "status", "priority"],
+        "properties": {
+          "title": { "type": "string", "minLength": 1, "example": "Revisar documentação" },
+          "status": { "type": "string", "minLength": 1, "example": "Pendente" },
+          "priority": { "type": "string", "minLength": 1, "example": "Alta" }
+        }
+      },
+      "TicketInput": {
+        "type": "object",
+        "required": ["subject", "category", "status"],
+        "properties": {
+          "subject": { "type": "string", "minLength": 1, "example": "Erro no login" },
+          "category": { "type": "string", "minLength": 1, "example": "Sistema" },
+          "status": { "type": "string", "minLength": 1, "example": "Aberto" }
+        }
+      },
+      "ClientInput": {
+        "type": "object",
+        "required": ["name", "company", "email"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "example": "Carlos Lima" },
+          "company": { "type": "string", "minLength": 1, "example": "Empresa Exemplo" },
+          "email": { "type": "string", "format": "email", "example": "carlos@example.com" }
+        }
+      },
+      "RecordInput": {
+        "description": "O formato deve corresponder ao recurso informado na URL.",
+        "oneOf": [
+          { "$ref": "#/components/schemas/ProductInput" },
+          { "$ref": "#/components/schemas/UserInput" },
+          { "$ref": "#/components/schemas/TaskInput" },
+          { "$ref": "#/components/schemas/TicketInput" },
+          { "$ref": "#/components/schemas/ClientInput" }
+        ]
+      },
+      "RecordPatch": {
+        "type": "object",
+        "minProperties": 1,
+        "additionalProperties": true,
+        "description": "Um ou mais campos válidos do recurso selecionado."
+      },
+      "Record": {
+        "allOf": [
+          { "type": "object", "required": ["id"], "properties": { "id": { "type": "integer", "minimum": 1, "example": 1 } } },
+          { "$ref": "#/components/schemas/RecordInput" }
+        ]
+      },
+      "RecordList": {
+        "type": "object",
+        "required": ["items"],
+        "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/Record" } } }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["error"],
+        "properties": { "error": { "type": "string", "example": "Registro não encontrado." } }
+      },
+      "ValidationError": {
+        "type": "object",
+        "required": ["error", "fields"],
+        "properties": {
+          "error": { "type": "string", "example": "Dados inválidos." },
+          "fields": { "type": "object", "additionalProperties": { "type": "string" }, "example": { "email": "E-mail inválido." } }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Requisição ou JSON inválido",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" }, "example": { "error": "JSON inválido." } } }
+      },
+      "ResourceNotFound": {
+        "description": "Recurso inexistente",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" }, "example": { "error": "Recurso não encontrado." } } }
+      },
+      "RecordNotFound": {
+        "description": "Registro inexistente",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" }, "example": { "error": "Registro não encontrado." } } }
+      },
+      "ValidationError": {
+        "description": "Um ou mais campos são inválidos",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ValidationError" } } }
+      },
+      "RecordUpdated": {
+        "description": "Registro atualizado com sucesso",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Record" } } }
+      },
+      "InternalError": {
+        "description": "Erro interno do servidor",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" }, "example": { "error": "Erro interno do servidor." } } }
+      }
+    }
+  }
+}

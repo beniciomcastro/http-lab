@@ -1,0 +1,14 @@
+{
+    "nextIds": {
+        "products": 1,
+        "users": 1,
+        "tasks": 1,
+        "tickets": 2,
+        "clients": 1
+    },
+    "products": [],
+    "users": [],
+    "tasks": [],
+    "tickets": [],
+    "clients": []
+}

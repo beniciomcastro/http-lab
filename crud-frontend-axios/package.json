@@ -1,0 +1,17 @@
+{
+  "name": "http-lab-frontend-axios",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.13.2"
+  },
+  "devDependencies": {
+    "vite": "^7.2.2"
+  }
+}
