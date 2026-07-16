@@ -1,4 +1,4 @@
-import { getResources } from './config.js';
+import { getResources, API_BASE_URL, API_URL } from './config.js';
 import { api } from './api/index.js';
 import { applyTranslations } from './i18n.js';
 
@@ -223,5 +223,12 @@ function resetHttpPanel() {
   document.getElementById('http-request').textContent = t().requestEmpty;
   document.getElementById('http-response').textContent = t().responseEmpty;
 }
+
+
+document.querySelectorAll('.swagger-link').forEach((link) => {
+  link.href = `${API_BASE_URL}/docs.html`;
+});
+const apiAddress = document.getElementById('api-address');
+if (apiAddress) apiAddress.textContent = API_URL.replace(/^https?:\/\//, '');
 
 setLanguage(language);

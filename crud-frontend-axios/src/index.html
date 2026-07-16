@@ -17,7 +17,7 @@
       <span></span><span></span><span></span>
     </button>
     <a class="brand" href="#top"><span class="brand-mark">H</span><span>HTTP Lab</span></a>
-    <nav class="desktop-nav"><a href="#produto" data-i18n="nav.product">Produto</a><a href="#metodos" data-i18n="nav.methods">Métodos</a><a href="http://localhost:8000/docs.html" target="_blank">Swagger</a></nav>
+    <nav class="desktop-nav"><a href="#produto" data-i18n="nav.product">Produto</a><a href="#metodos" data-i18n="nav.methods">Métodos</a><a href="#" class="swagger-link" target="_blank" rel="noopener noreferrer">Swagger</a></nav>
     <div class="header-actions">
       <button class="language-toggle" id="language-toggle" type="button" aria-label="Mudar idioma"><span class="active">PT</span><span>EN</span></button>
       <button class="button button-small header-cta" data-open-lab data-i18n="actions.freeTrial">Testar grátis</button>
@@ -33,7 +33,7 @@
     <nav>
       <a href="#produto" data-i18n="nav.product">Produto</a>
       <a href="#metodos" data-i18n="nav.methods">Métodos</a>
-      <a href="http://localhost:8000/docs.html" target="_blank">Swagger</a>
+      <a href="#" class="swagger-link" target="_blank" rel="noopener noreferrer">Swagger</a>
     </nav>
     <button class="button" data-open-lab data-i18n="actions.freeTrial">Testar grátis</button>
   </aside>
@@ -52,7 +52,7 @@
         <div class="api-console">
           <div class="console-topbar">
             <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
-            <code>localhost:8000/api</code>
+            <code id="api-address">localhost:8000/api</code>
           </div>
           <div class="console-body">
             <div class="console-route"><span class="verb verb-get">GET</span><code>/products</code><strong>200</strong></div>

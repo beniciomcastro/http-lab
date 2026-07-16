@@ -5,8 +5,12 @@ declare(strict_types=1);
 require_once __DIR__ . '/../config/config.php';
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if (in_array($origin, ALLOWED_ORIGINS, true)) {
+$isAllowedOrigin = in_array($origin, ALLOWED_ORIGINS, true)
+    || preg_match('#^https://[a-z0-9-]+\.onrender\.com$#i', $origin) === 1;
+
+if ($isAllowedOrigin) {
     header('Access-Control-Allow-Origin: ' . $origin);
+    header('Vary: Origin');
 }
 header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');

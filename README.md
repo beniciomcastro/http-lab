@@ -1,65 +1,34 @@
 # HTTP Lab
 
-HTTP Lab is an interactive application created to demonstrate how a REST API works in practice. Instead of only explaining HTTP methods, the project lets users perform real CRUD operations while visualizing the communication between the frontend and backend.
-
-## Features
-
-- Interactive landing page
-- CRUD modules for Products, Users, Tasks, Clients and Service Tickets
-- REST API built with PHP
-- HTTP request and response panel
-- Responsive interface
-- English and Portuguese support
-- Docker support
+HTTP Lab is an interactive application created to demonstrate how a REST API works in practice. Users can perform CRUD operations while viewing the HTTP method, endpoint, request body, response and status code in real time.
 
 ## Swagger Documentation
 
-The project includes Swagger through an OpenAPI specification to document the API.
-
-Swagger is included so developers can view all endpoints, understand the expected request data, inspect responses and status codes, and test the API directly from the browser without needing an external tool such as Postman. This makes the API easier to understand, test and integrate.
+The project includes Swagger through an OpenAPI specification. Swagger is used to document the API, show the available endpoints and expected data, explain possible responses, and allow developers to test requests directly in the browser without an external tool.
 
 ## Technologies
 
 - PHP
 - JavaScript
 - Axios
+- Vite
 - REST API
 - Swagger / OpenAPI
 - Docker
 
-## Running Locally
+## Running Locally with Docker
 
 ```bash
 docker compose up --build
 ```
 
-Application:
+Application: `http://localhost:8080`
 
-```text
-http://localhost:8080
-```
+Swagger: `http://localhost:8000/docs.html`
 
-Swagger:
+## Render Deployment
 
-```text
-http://localhost:8080/docs.html
-```
-
-## Deploying on Render from GitHub
-
-1. Push the complete project to a GitHub repository.
-2. Open the Render Dashboard.
-3. Select **New > Blueprint**.
-4. Connect the GitHub repository.
-5. Render will automatically detect the `render.yaml` file.
-6. Confirm the two services and apply the Blueprint.
-
-The Blueprint creates:
-
-- `http-lab-api`: PHP backend service
-- `http-lab`: frontend service with an internal proxy to the backend
-
-No manual API URL configuration is required.
+Deploy the backend as a Docker Web Service and the frontend as a Static Site. Set `VITE_API_URL` in the Static Site to the public backend URL followed by `/api`.
 
 ## License
 
