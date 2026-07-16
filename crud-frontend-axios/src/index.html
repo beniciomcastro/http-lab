@@ -1,129 +1,409 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="HTTP Lab: experimente uma API REST enquanto aprende os métodos HTTP na prática.">
-  <title>HTTP Lab</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles/main.css">
-</head>
-<body>
-  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
-  <header class="site-header">
-    <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="mobile-menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <a class="brand" href="#top"><span class="brand-mark">H</span><span>HTTP Lab</span></a>
-    <nav class="desktop-nav"><a href="#produto" data-i18n="nav.product">Produto</a><a href="#metodos" data-i18n="nav.methods">Métodos</a><a href="#" class="swagger-link" target="_blank" rel="noopener noreferrer">Swagger</a></nav>
-    <div class="header-actions">
-      <button class="language-toggle" id="language-toggle" type="button" aria-label="Mudar idioma"><span class="active">PT</span><span>EN</span></button>
-      <button class="button button-small header-cta" data-open-lab data-i18n="actions.freeTrial">Testar grátis</button>
-    </div>
-  </header>
-
-  <div class="menu-overlay" id="menu-overlay"></div>
-  <aside class="mobile-menu" id="mobile-menu" aria-hidden="true">
-    <div class="mobile-menu-header">
-      <a class="brand" href="#top"><span class="brand-mark">H</span><span>HTTP Lab</span></a>
-      <button class="mobile-menu-close" id="mobile-menu-close" type="button" aria-label="Fechar menu">×</button>
-    </div>
-    <nav>
-      <a href="#produto" data-i18n="nav.product">Produto</a>
-      <a href="#metodos" data-i18n="nav.methods">Métodos</a>
-      <a href="#" class="swagger-link" target="_blank" rel="noopener noreferrer">Swagger</a>
-    </nav>
-    <button class="button" data-open-lab data-i18n="actions.freeTrial">Testar grátis</button>
-  </aside>
-
-  <main id="top">
-    <section class="hero">
-      <div class="hero-copy">
-        <span class="eyebrow">API REST, sem teoria excessiva</span>
-        <h1><span data-i18n="hero.title1">Use uma aplicação real.</span><br><span data-i18n="hero.title2">Entenda o HTTP acontecendo.</span></h1>
-        <p><span data-i18n="hero.description">Escolha um CRUD, crie registros e acompanhe o método, endpoint, corpo e resposta de cada requisição.</span></p>
-        <div class="hero-actions"><button class="button" data-open-lab><span data-i18n="actions.startLab">Começar laboratório</span></button><a class="text-link" href="#metodos"><span data-i18n="actions.howItWorks">Ver como funciona</span></a></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="HTTP Lab: experimente uma API REST enquanto aprende os métodos HTTP na prática."
+    />
+    <title>HTTP Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <header class="site-header">
+      <button
+        class="menu-toggle"
+        id="menu-toggle"
+        type="button"
+        aria-label="Abrir menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+      >
+        <span></span><span></span><span></span>
+      </button>
+      <a class="brand" href="#top"
+        ><span class="brand-mark">H</span><span>HTTP Lab</span></a
+      >
+      <nav class="desktop-nav">
+        <a href="#produto" data-i18n="nav.product">Produto</a
+        ><a href="#metodos" data-i18n="nav.methods">Métodos</a
+        ><a
+          href="#"
+          class="swagger-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Swagger</a
+        >
+      </nav>
+      <div class="header-actions">
+        <button
+          class="language-toggle"
+          id="language-toggle"
+          type="button"
+          aria-label="Mudar idioma"
+        >
+          <span class="active">PT</span><span>EN</span>
+        </button>
+        <button
+          class="button button-small header-cta"
+          data-open-lab
+          data-i18n="actions.freeTrial"
+        >
+          Testar grátis
+        </button>
       </div>
-      <div class="hero-visual" aria-label="Visualização de uma API REST em funcionamento">
-        <div class="visual-grid"></div>
-        <div class="visual-glow"></div>
-        <div class="api-console">
-          <div class="console-topbar">
-            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
-            <code id="api-address">localhost:8000/api</code>
+    </header>
+
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <aside class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <div class="mobile-menu-header">
+        <a class="brand" href="#top"
+          ><span class="brand-mark">H</span><span>HTTP Lab</span></a
+        >
+        <button
+          class="mobile-menu-close"
+          id="mobile-menu-close"
+          type="button"
+          aria-label="Fechar menu"
+        >
+          ×
+        </button>
+      </div>
+      <nav>
+        <a href="#produto" data-i18n="nav.product">Produto</a>
+        <a href="#metodos" data-i18n="nav.methods">Métodos</a>
+        <a
+          href="#"
+          class="swagger-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Swagger</a
+        >
+      </nav>
+      <button class="button" data-open-lab data-i18n="actions.freeTrial">
+        Testar grátis
+      </button>
+    </aside>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">API REST, sem teoria excessiva</span>
+          <h1>
+            <span data-i18n="hero.title1">Use uma aplicação real.</span
+            ><br /><span data-i18n="hero.title2"
+              >Entenda o HTTP acontecendo.</span
+            >
+          </h1>
+          <p>
+            <span data-i18n="hero.description"
+              >Escolha um CRUD, crie registros e acompanhe o método, endpoint,
+              corpo e resposta de cada requisição.</span
+            >
+          </p>
+          <div class="hero-actions">
+            <button class="button" data-open-lab>
+              <span data-i18n="actions.startLab"
+                >Começar laboratório</span
+              ></button
+            ><a class="text-link" href="#metodos"
+              ><span data-i18n="actions.howItWorks">Ver como funciona</span></a
+            >
           </div>
-          <div class="console-body">
-            <div class="console-route"><span class="verb verb-get">GET</span><code>/products</code><strong>200</strong></div>
-            <div class="console-route active"><span class="verb verb-post">POST</span><code>/products</code><strong>201</strong></div>
-            <pre><span>{</span>
+        </div>
+        <div
+          class="hero-visual"
+          aria-label="Visualização de uma API REST em funcionamento"
+        >
+          <div class="visual-grid"></div>
+          <div class="visual-glow"></div>
+          <div class="api-console">
+            <div class="console-topbar">
+              <span class="console-dot"></span><span class="console-dot"></span
+              ><span class="console-dot"></span>
+              <code id="api-address">localhost:8000/api</code>
+            </div>
+            <div class="console-body">
+              <div class="console-route">
+                <span class="verb verb-get">GET</span><code>/products</code
+                ><strong>200</strong>
+              </div>
+              <div class="console-route active">
+                <span class="verb verb-post">POST</span><code>/products</code
+                ><strong>201</strong>
+              </div>
+              <pre><span>{</span>
   <b>"name"</b>: <em>"Notebook"</em>,
   <b>"price"</b>: <i>3499.90</i>,
   <b>"stock"</b>: <i>12</i>
 <span>}</span></pre>
+            </div>
+          </div>
+          <div class="flow-node node-client">
+            <small data-i18n="visual.frontend">Frontend</small><b>Axios</b>
+          </div>
+          <div class="flow-node node-api">
+            <small data-i18n="visual.backend">Backend</small><b>PHP API</b>
+          </div>
+          <div class="flow-node node-data">
+            <small data-i18n="visual.persistence">Persistência</small
+            ><b>JSON</b>
+          </div>
+          <svg
+            class="flow-lines"
+            viewBox="0 0 620 520"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path d="M142 140 C230 120 260 225 318 245" />
+            <path d="M360 265 C430 290 470 350 505 410" />
+            <circle cx="142" cy="140" r="4" />
+            <circle cx="318" cy="245" r="4" />
+            <circle cx="505" cy="410" r="4" />
+          </svg>
+          <div class="request-chip chip-one">
+            <span>GET</span><small data-i18n="visual.fetch">consulta</small>
+          </div>
+          <div class="request-chip chip-two">
+            <span>201</span><small data-i18n="visual.created">criado</small>
           </div>
         </div>
-        <div class="flow-node node-client"><small data-i18n="visual.frontend">Frontend</small><b>Axios</b></div>
-        <div class="flow-node node-api"><small data-i18n="visual.backend">Backend</small><b>PHP API</b></div>
-        <div class="flow-node node-data"><small data-i18n="visual.persistence">Persistência</small><b>JSON</b></div>
-        <svg class="flow-lines" viewBox="0 0 620 520" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M142 140 C230 120 260 225 318 245" />
-          <path d="M360 265 C430 290 470 350 505 410" />
-          <circle cx="142" cy="140" r="4"/><circle cx="318" cy="245" r="4"/><circle cx="505" cy="410" r="4"/>
-        </svg>
-        <div class="request-chip chip-one"><span>GET</span><small data-i18n="visual.fetch">consulta</small></div>
-        <div class="request-chip chip-two"><span>201</span><small data-i18n="visual.created">criado</small></div>
+      </section>
+
+      <section class="trusted">
+        <span
+          ><span data-i18n="trusted.label"
+            >Uma experiência prática com</span
+          ></span
+        ><b>PHP 8.3</b><b>Axios</b><b>OpenAPI</b><b>Docker</b>
+      </section>
+
+      <section id="produto" class="section split-section">
+        <div>
+          <span class="eyebrow"
+            ><span data-i18n="product.eyebrow"
+              >Escolha o seu cenário</span
+            ></span
+          >
+          <h2>
+            <span data-i18n="product.title"
+              >Um laboratório, cinco aplicações.</span
+            >
+          </h2>
+        </div>
+        <p>
+          <span data-i18n="product.description"
+            >Produtos, usuários, tarefas, chamados ou clientes. A interface
+            muda, mas a arquitetura HTTP continua clara e consistente.</span
+          >
+        </p>
+      </section>
+
+      <section class="resource-grid">
+        <button class="resource-card" type="button" data-resource="products">
+          <span>01</span>
+          <h3 data-i18n="resources.products.label">Produtos</h3>
+          <p data-i18n="resources.products.card">Nome, preço e estoque.</p>
+          <i data-i18n="actions.explore">Explorar →</i>
+        </button>
+        <button class="resource-card" type="button" data-resource="users">
+          <span>02</span>
+          <h3 data-i18n="resources.users.label">Usuários</h3>
+          <p data-i18n="resources.users.card">Nome, e-mail e função.</p>
+          <i data-i18n="actions.explore">Explorar →</i>
+        </button>
+        <button class="resource-card" type="button" data-resource="tasks">
+          <span>03</span>
+          <h3 data-i18n="resources.tasks.label">Tarefas</h3>
+          <p data-i18n="resources.tasks.card">Título, status e prioridade.</p>
+          <i data-i18n="actions.explore">Explorar →</i>
+        </button>
+        <button class="resource-card" type="button" data-resource="tickets">
+          <span>04</span>
+          <h3 data-i18n="resources.tickets.label">Chamados</h3>
+          <p data-i18n="resources.tickets.card">Assunto, categoria e status.</p>
+          <i data-i18n="actions.explore">Explorar →</i>
+        </button>
+        <button class="resource-card" type="button" data-resource="clients">
+          <span>05</span>
+          <h3 data-i18n="resources.clients.label">Clientes</h3>
+          <p data-i18n="resources.clients.card">Nome, empresa e e-mail.</p>
+          <i data-i18n="actions.explore">Explorar →</i>
+        </button>
+      </section>
+
+      <section id="metodos" class="section methods-section">
+        <div>
+          <span class="eyebrow"
+            ><span data-i18n="methods.eyebrow"
+              >Aprendizado contextual</span
+            ></span
+          >
+          <h2>
+            <span data-i18n="methods.title"
+              >Você aprende sem interromper o uso.</span
+            >
+          </h2>
+          <p>
+            <span data-i18n="methods.description"
+              >O painel técnico aparece ao lado da aplicação e explica apenas o
+              necessário.</span
+            >
+          </p>
+        </div>
+        <div class="method-stack">
+          <span
+            ><b>GET</b>
+            <span data-i18n="methods.get">consulta dados</span></span
+          ><span
+            ><b>POST</b>
+            <span data-i18n="methods.post">cria um registro</span></span
+          ><span
+            ><b>PUT / PATCH</b>
+            <span data-i18n="methods.update">atualiza dados</span></span
+          ><span
+            ><b>DELETE</b>
+            <span data-i18n="methods.delete">remove um registro</span></span
+          >
+        </div>
+      </section>
+
+      <section class="cta">
+        <span class="eyebrow"
+          ><span data-i18n="cta.eyebrow">Pronto para testar?</span></span
+        >
+        <h2>
+          <span data-i18n="cta.title"
+            >Escolha um CRUD e veja a API em ação.</span
+          >
+        </h2>
+        <button class="button" data-open-lab>
+          <span data-i18n="actions.openLab">Abrir laboratório</span>
+        </button>
+      </section>
+    </main>
+
+    <footer>
+      <span>HTTP Lab</span><span>PHP + JavaScript + Axios + Swagger</span
+      ><span>© 2026 Benício Castro. All rights reserved.</span>
+    </footer>
+
+    <dialog id="resource-modal">
+      <form method="dialog" class="modal-shell">
+        <button class="modal-close" value="cancel" aria-label="Fechar">
+          ×
+        </button>
+        <span class="eyebrow"
+          ><span data-i18n="modal.eyebrow">Escolha uma experiência</span></span
+        >
+        <h2>
+          <span data-i18n="modal.title">Qual CRUD você quer testar?</span>
+        </h2>
+        <div class="modal-grid" id="resource-options"></div>
+      </form>
+    </dialog>
+
+    <section id="lab" class="lab hidden" aria-live="polite">
+      <div class="lab-topbar">
+        <div>
+          <button class="back-button" id="close-lab">
+            <span data-i18n="lab.back">← Voltar</span></button
+          ><span class="lab-kicker"
+            ><span data-i18n="lab.active">Laboratório ativo</span></span
+          >
+          <h2 id="lab-title"></h2>
+        </div>
+        <button class="button button-small" id="change-resource">
+          <span data-i18n="lab.change">Trocar CRUD</span>
+        </button>
+      </div>
+      <div class="lab-layout">
+        <div class="workspace">
+          <form id="record-form" class="record-form">
+            <div class="form-heading">
+              <div>
+                <span id="form-mode"
+                  ><span data-i18n="lab.newRecord">Novo registro</span></span
+                >
+                <h3 id="form-title"></h3>
+              </div>
+              <button type="button" class="text-button hidden" id="cancel-edit">
+                <span data-i18n="lab.cancelEdit">Cancelar edição</span>
+              </button>
+            </div>
+            <div id="form-fields" class="form-fields"></div>
+            <button class="button" type="submit" id="submit-button">
+              <span data-i18n="lab.createRecord">Criar registro</span>
+            </button>
+            <p class="form-error" id="form-error"></p>
+          </form>
+          <div class="records-panel">
+            <div class="panel-heading">
+              <div>
+                <span
+                  ><span data-i18n="lab.currentData">Dados atuais</span></span
+                >
+                <h3 id="records-title"></h3>
+              </div>
+              <button class="text-button" id="refresh-button">
+                <span data-i18n="lab.refresh">Atualizar</span>
+              </button>
+            </div>
+            <div id="records-grid" class="records-grid"></div>
+          </div>
+        </div>
+        <aside class="http-panel">
+          <div class="http-heading">
+            <span
+              ><span data-i18n="lab.whatHappened">O que aconteceu</span></span
+            >
+            <div>
+              <b id="http-method">GET</b><code id="http-endpoint">/api</code>
+            </div>
+          </div>
+          <div class="status-line">
+            <span><span data-i18n="lab.status">Status</span></span
+            ><strong id="http-status"
+              ><span data-i18n="lab.waiting">Aguardando</span></strong
+            >
+          </div>
+          <p id="http-explanation">
+            <span data-i18n="lab.explanationDefault"
+              >Execute uma ação para acompanhar a comunicação entre frontend e
+              API.</span
+            >
+          </p>
+          <div class="code-block">
+            <span><span data-i18n="lab.request">Request</span></span>
+            <pre id="http-request">Nenhuma requisição enviada.</pre>
+          </div>
+          <div class="code-block">
+            <span><span data-i18n="lab.response">Response</span></span>
+            <pre id="http-response">Nenhuma resposta recebida.</pre>
+          </div>
+        </aside>
       </div>
     </section>
 
-    <section class="trusted"><span><span data-i18n="trusted.label">Uma experiência prática com</span></span><b>PHP 8.3</b><b>Axios</b><b>OpenAPI</b><b>Docker</b></section>
+    <button
+      class="scroll-top"
+      id="scroll-top"
+      type="button"
+      aria-label="Voltar ao topo"
+    >
+      ↑
+    </button>
 
-    <section id="produto" class="section split-section">
-      <div><span class="eyebrow"><span data-i18n="product.eyebrow">Escolha o seu cenário</span></span><h2><span data-i18n="product.title">Um laboratório, cinco aplicações.</span></h2></div>
-      <p><span data-i18n="product.description">Produtos, usuários, tarefas, chamados ou clientes. A interface muda, mas a arquitetura HTTP continua clara e consistente.</span></p>
-    </section>
-
-    <section class="resource-grid">
-      <button class="resource-card" type="button" data-resource="products"><span>01</span><h3 data-i18n="resources.products.label">Produtos</h3><p data-i18n="resources.products.card">Nome, preço e estoque.</p><i data-i18n="actions.explore">Explorar →</i></button>
-      <button class="resource-card" type="button" data-resource="users"><span>02</span><h3 data-i18n="resources.users.label">Usuários</h3><p data-i18n="resources.users.card">Nome, e-mail e função.</p><i data-i18n="actions.explore">Explorar →</i></button>
-      <button class="resource-card" type="button" data-resource="tasks"><span>03</span><h3 data-i18n="resources.tasks.label">Tarefas</h3><p data-i18n="resources.tasks.card">Título, status e prioridade.</p><i data-i18n="actions.explore">Explorar →</i></button>
-      <button class="resource-card" type="button" data-resource="tickets"><span>04</span><h3 data-i18n="resources.tickets.label">Chamados</h3><p data-i18n="resources.tickets.card">Assunto, categoria e status.</p><i data-i18n="actions.explore">Explorar →</i></button>
-      <button class="resource-card" type="button" data-resource="clients"><span>05</span><h3 data-i18n="resources.clients.label">Clientes</h3><p data-i18n="resources.clients.card">Nome, empresa e e-mail.</p><i data-i18n="actions.explore">Explorar →</i></button>
-    </section>
-
-    <section id="metodos" class="section methods-section">
-      <div><span class="eyebrow"><span data-i18n="methods.eyebrow">Aprendizado contextual</span></span><h2><span data-i18n="methods.title">Você aprende sem interromper o uso.</span></h2><p><span data-i18n="methods.description">O painel técnico aparece ao lado da aplicação e explica apenas o necessário.</span></p></div>
-      <div class="method-stack"><span><b>GET</b> <span data-i18n="methods.get">consulta dados</span></span><span><b>POST</b> <span data-i18n="methods.post">cria um registro</span></span><span><b>PUT / PATCH</b> <span data-i18n="methods.update">atualiza dados</span></span><span><b>DELETE</b> <span data-i18n="methods.delete">remove um registro</span></span></div>
-    </section>
-
-    <section class="cta"><span class="eyebrow"><span data-i18n="cta.eyebrow">Pronto para testar?</span></span><h2><span data-i18n="cta.title">Escolha um CRUD e veja a API em ação.</span></h2><button class="button" data-open-lab><span data-i18n="actions.openLab">Abrir laboratório</span></button></section>
-  </main>
-
-  <footer><span>HTTP Lab</span><span>PHP + JavaScript + Axios + Swagger</span><span>© 2026 Benício Castro. All rights reserved.</span></footer>
-
-  <dialog id="resource-modal">
-    <form method="dialog" class="modal-shell">
-      <button class="modal-close" value="cancel" aria-label="Fechar">×</button>
-      <span class="eyebrow"><span data-i18n="modal.eyebrow">Escolha uma experiência</span></span>
-      <h2><span data-i18n="modal.title">Qual CRUD você quer testar?</span></h2>
-      <div class="modal-grid" id="resource-options"></div>
-    </form>
-  </dialog>
-
-  <section id="lab" class="lab hidden" aria-live="polite">
-    <div class="lab-topbar"><div><button class="back-button" id="close-lab"><span data-i18n="lab.back">← Voltar</span></button><span class="lab-kicker"><span data-i18n="lab.active">Laboratório ativo</span></span><h2 id="lab-title"></h2></div><button class="button button-small" id="change-resource"><span data-i18n="lab.change">Trocar CRUD</span></button></div>
-    <div class="lab-layout">
-      <div class="workspace">
-        <form id="record-form" class="record-form"><div class="form-heading"><div><span id="form-mode"><span data-i18n="lab.newRecord">Novo registro</span></span><h3 id="form-title"></h3></div><button type="button" class="text-button hidden" id="cancel-edit"><span data-i18n="lab.cancelEdit">Cancelar edição</span></button></div><div id="form-fields" class="form-fields"></div><button class="button" type="submit" id="submit-button"><span data-i18n="lab.createRecord">Criar registro</span></button><p class="form-error" id="form-error"></p></form>
-        <div class="records-panel"><div class="panel-heading"><div><span><span data-i18n="lab.currentData">Dados atuais</span></span><h3 id="records-title"></h3></div><button class="text-button" id="refresh-button"><span data-i18n="lab.refresh">Atualizar</span></button></div><div id="records-grid" class="records-grid"></div></div>
-      </div>
-      <aside class="http-panel"><div class="http-heading"><span><span data-i18n="lab.whatHappened">O que aconteceu</span></span><div><b id="http-method">GET</b><code id="http-endpoint">/api</code></div></div><div class="status-line"><span><span data-i18n="lab.status">Status</span></span><strong id="http-status"><span data-i18n="lab.waiting">Aguardando</span></strong></div><p id="http-explanation"><span data-i18n="lab.explanationDefault">Execute uma ação para acompanhar a comunicação entre frontend e API.</span></p><div class="code-block"><span><span data-i18n="lab.request">Request</span></span><pre id="http-request">Nenhuma requisição enviada.</pre></div><div class="code-block"><span><span data-i18n="lab.response">Response</span></span><pre id="http-response">Nenhuma resposta recebida.</pre></div></aside>
-    </div>
-  </section>
-
-  <button class="scroll-top" id="scroll-top" type="button" aria-label="Voltar ao topo">↑</button>
-
-  <script type="module" src="./scripts/app.js"></script>
-</body>
+    <script type="module" src="./scripts/app.js"></script>
+  </body>
 </html>
