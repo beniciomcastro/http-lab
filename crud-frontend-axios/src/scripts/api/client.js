@@ -4,7 +4,7 @@ import { API_URL } from '../config.js';
 const client = axios.create({
   baseURL: API_URL,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 10000,
+  timeout: 60000,
   validateStatus: () => true,
 });
 
